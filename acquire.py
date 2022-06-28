@@ -54,22 +54,25 @@ def stores():
     stores = pd.DataFrame(stores)
 
 def sales():
-    domain = 'https://python.zgulde.net'
+    #initialize variables
+    domain = 'https://python.zgulde.net/'
     endpoint = '/api/v1/sales'
     sales = []
-    # For each page -- until next page is None
-    #loop the process of adding pages to database
+
+    #loop while our endpoint isn't none
     while endpoint != None:
+        #create api url
         url = domain + endpoint
+        #get data
         response = requests.get(url)
         data = response.json()
         #add data to list
         sales.extend(data['payload']['sales'])
-        #grab new end point
+        #grab new endpoint
         endpoint = data['payload']['next_page']
-        #save dataframe
-        sales = pd.DataFrame(sales)
-        return sales
+
+    #save dataframe
+    sales = pd.DataFrame(sales)
 
 def get_stores_data():
     if os.path.exists('stores.csv'):
